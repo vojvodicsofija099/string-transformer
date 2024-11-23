@@ -1,13 +1,10 @@
 package com.stringtransformer.unit.service;
 
-import com.stringtransformer.annotations.TransformerComponent;
-import com.stringtransformer.controller.exception.StringTransformerException;
 import com.stringtransformer.model.InputValue;
 import com.stringtransformer.model.TransformerInfo;
 import com.stringtransformer.registry.TransformerRegistry;
 import com.stringtransformer.service.TransformerService;
 import com.stringtransformer.unit.common.MockTransformer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,12 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.stringtransformer.unit.common.TestConstants.groupId1;
 import static com.stringtransformer.unit.common.TestConstants.transformerId1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 public class TransformerServiceTest {
@@ -68,14 +63,5 @@ public class TransformerServiceTest {
                 {null, "test", "test"},
                 {List.of(), "test", "test"}
         };
-    }
-
-    @Test
-    void applyTransformationsNullValue() {
-        Assertions.assertThrows(NullPointerException.class,
-                () -> transformerService.applyTransformations(InputValue.builder()
-                .value(null)
-                .transformers(List.of(TransformerInfo.builder().groupId(groupId1).transformerId(transformerId1).build()))
-                .build()));
     }
 }

@@ -1,5 +1,6 @@
 package com.stringtransformer.controller;
 
+import com.stringtransformer.controller.exception.StringTransformerException;
 import com.stringtransformer.dto.TransformedStringDTO;
 import com.stringtransformer.dto.TransformedStringDTOs;
 import com.stringtransformer.model.InputValue;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static com.stringtransformer.controller.assembler.ControllerResponseAssembler.assembleTransformedStringDTO;
 import static com.stringtransformer.controller.assembler.ControllerResponseAssembler.assembleTransformedStringDTOs;
+import static com.stringtransformer.constants.StringTransformerConstants.INPUT_VALUE_LIST_NOT_NULL;
 
 @RestController
 public class TransformerController implements TransformerAPI {
@@ -26,6 +28,10 @@ public class TransformerController implements TransformerAPI {
 
     @Override
     public TransformedStringDTOs applyTransformations(@RequestBody List<@Valid InputValue> inputs) {
+
+        if (inputs == null) {
+            throw new StringTransformerException(INPUT_VALUE_LIST_NOT_NULL);
+        }
 
         List<TransformedStringDTO> outputs = new LinkedList<>();
         for(InputValue input : inputs) {

@@ -1,5 +1,6 @@
 package com.stringtransformer.integration;
 
+import com.stringtransformer.constants.StringTransformerConstants;
 import com.stringtransformer.dto.TransformedStringDTOs;
 import com.stringtransformer.model.InputValue;
 import com.stringtransformer.model.TransformerInfo;
@@ -34,7 +35,7 @@ class TransformerIntegrationTest {
 		String value = "This123 is test to check if Αθήνα and356 Чачкалица test is working.000000000";
 
 		Map<String, String> removeParams = new HashMap<>();
-		removeParams.put("regex", "\\d+");
+		removeParams.put(REGEX, "\\d+");
 		TransformerInfo removeRegexMatch = TransformerInfo.builder()
 				.groupId(REGEX)
 				.transformerId(REMOVE)
@@ -42,8 +43,8 @@ class TransformerIntegrationTest {
 				.build();
 
 		Map<String, String> replacementParams = new HashMap<>();
-		replacementParams.put("regex", "test");
-		replacementParams.put("replacement", "exam");
+		replacementParams.put(REGEX, "test");
+		replacementParams.put(REPLACEMENT, "exam");
 		TransformerInfo replaceRegexMatch = TransformerInfo.builder()
 				.groupId(REGEX)
 				.transformerId(REPLACE)
@@ -106,8 +107,63 @@ class TransformerIntegrationTest {
 		inputValues.add(inputValue);
 
 		ResponseEntity<String> response = sendFailedRequest(inputValues);
-		assertTrue(response.getBody().contains("Validation failure"));
+		assertTrue(response.getBody().contains(VALUE_NOT_NULL));
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	public void transformStringInvalidTransformer() {
+		String value = "Transformer with no grout or transformer id";
+
+		Map<String, String> removeParams = new HashMap<>();
+		removeParams.put("regex", "\\d+");
+		TransformerInfo removeRegexMatch = TransformerInfo.builder()
+				.groupId("group2") //doesn't exist
+				.transformerId("transformer2")
+				.parameters(removeParams)
+				.build();
+
+		List<TransformerInfo> transformerInfoList = List.of(removeRegexMatch);
+
+		List<InputValue> inputValues = new ArrayList<>();
+		InputValue inputValue = InputValue.builder()
+				.value(value)
+				.transformers(transformerInfoList)
+				.build();
+		inputValues.add(inputValue);
+
+		ResponseEntity<String> response = sendFailedRequest(inputValues);
+
+		assertTrue(response.getBody().contains(StringTransformerConstants.getMessage(TRANSFORMER_DOESNT_EXIST,
+				Map.of("{groupId}", "group2", "{transformerId}", "transformer2"))));
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+	}
+
+	@Test
+	public void transformStringNullTransformer() {
+		String value = "Transformer with no grout or transformer id";
+
+		Map<String, String> removeParams = new HashMap<>();
+		removeParams.put("regex", "\\d+");
+		TransformerInfo removeRegexMatch = TransformerInfo.builder()
+				.groupId(null) //throws exception
+				.transformerId(null)
+				.parameters(removeParams)
+				.build();
+
+		List<TransformerInfo> transformerInfoList = List.of(removeRegexMatch);
+
+		List<InputValue> inputValues = new ArrayList<>();
+		InputValue inputValue = InputValue.builder()
+				.value(value)
+				.transformers(transformerInfoList)
+				.build();
+		inputValues.add(inputValue);
+
+		ResponseEntity<String> response = sendFailedRequest(inputValues);
+
+		assertTrue(response.getBody().contains(GROUP_ID_OR_TRANSFORMER_ID_NULL));
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
 	}
 
 
