@@ -11,7 +11,7 @@ import java.util.Map;
 @Service
 public class TransformerRegistry {
 
-    private final Map<String, Transformer> transformerMap = new HashMap();
+    private final Map<String, Transformer> transformerMap = new HashMap<>();
 
     public TransformerRegistry(List<Transformer> transformers) {
         for(Transformer transformer : transformers) {
