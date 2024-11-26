@@ -1,6 +1,6 @@
 package com.stringtransformer.unit.transformers;
 
-import com.stringtransformer.controller.exception.StringTransformerException;
+import com.stringtransformer.exception.StringTransformerException;
 import com.stringtransformer.transformers.MatchRemover;
 import com.stringtransformer.transformers.MatchReplacer;
 import com.stringtransformer.transformers.Transformer;

@@ -1,4 +1,4 @@
-package com.stringtransformer.controller.exception;
+package com.stringtransformer.exception;
 
 import lombok.Getter;
 

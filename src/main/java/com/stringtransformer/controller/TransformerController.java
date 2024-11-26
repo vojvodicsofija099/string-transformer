@@ -1,6 +1,6 @@
 package com.stringtransformer.controller;
 
-import com.stringtransformer.controller.exception.StringTransformerException;
+import com.stringtransformer.exception.StringTransformerException;
 import com.stringtransformer.dto.TransformedStringDTO;
 import com.stringtransformer.dto.TransformedStringDTOs;
 import com.stringtransformer.model.InputValue;

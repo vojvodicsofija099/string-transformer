@@ -1,7 +1,7 @@
 package com.stringtransformer.transformers;
 
 import com.stringtransformer.annotations.TransformerComponent;
-import com.stringtransformer.controller.exception.StringTransformerException;
+import com.stringtransformer.exception.StringTransformerException;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 

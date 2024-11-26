@@ -1,7 +1,7 @@
 package com.stringtransformer.service;
 
 import com.stringtransformer.constants.StringTransformerConstants;
-import com.stringtransformer.controller.exception.StringTransformerException;
+import com.stringtransformer.exception.StringTransformerException;
 import com.stringtransformer.model.InputValue;
 import com.stringtransformer.model.TransformerInfo;
 import com.stringtransformer.registry.TransformerRegistry;
